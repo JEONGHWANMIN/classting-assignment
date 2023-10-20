@@ -18,6 +18,7 @@
         ],
         "pathGroupsExcludedImportTypes": ["next/*"]
       }
-    ]
+    ],
+    "no-unused-vars": "error"
   }
 }

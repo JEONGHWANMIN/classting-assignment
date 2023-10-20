@@ -4,6 +4,15 @@ const nextConfig = {
   compiler: {
     styledComponents: true,
   },
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/quiz",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;
