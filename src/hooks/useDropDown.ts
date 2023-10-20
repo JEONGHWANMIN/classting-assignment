@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-function useDropDown() {
+const useDropDown = () => {
   const [isDrop, setIsDrop] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -27,6 +27,6 @@ function useDropDown() {
     ref,
     handleChangeDrop,
   };
-}
+};
 
 export { useDropDown };
