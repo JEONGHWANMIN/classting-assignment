@@ -1,19 +1,23 @@
 import { RecoilRoot } from "recoil";
+import { ConfigProvider } from "antd";
 import { ThemeProvider } from "styled-components";
 import type { AppProps } from "next/app";
 import GlobalStyles from "@src/styles/GlobalStyles";
-import { theme } from "@src/styles/theme";
 import { Layout } from "@src/components/layout/Layout";
+import { styledTheme } from "@src/styles/styledTheme";
+import { antTheme } from "@src/styles/antTheme";
 import "../styles/fonts.css";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <RecoilRoot>
-      <ThemeProvider theme={theme}>
-        <GlobalStyles />
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+      <ThemeProvider theme={styledTheme}>
+        <ConfigProvider theme={antTheme}>
+          <GlobalStyles />
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </ConfigProvider>
       </ThemeProvider>
     </RecoilRoot>
   );
