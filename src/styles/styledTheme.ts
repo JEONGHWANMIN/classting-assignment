@@ -61,7 +61,7 @@ const typography = {
 export type colorsType = typeof colors;
 export type typographyType = typeof typography;
 
-export const theme: DefaultTheme = {
+export const styledTheme: DefaultTheme = {
   typography,
   colors,
 };
