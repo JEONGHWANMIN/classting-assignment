@@ -2,6 +2,7 @@ import React from "react";
 import { createCache, extractStyle, StyleProvider } from "@ant-design/cssinjs";
 import Document, { Head, Html, Main, NextScript } from "next/document";
 import type { DocumentContext } from "next/document";
+import { ServerStyleSheet } from "styled-components"; // styled-components 추가
 
 const MyDocument = () => (
   <Html lang="en">
@@ -16,6 +17,9 @@ const MyDocument = () => (
 MyDocument.getInitialProps = async (ctx: DocumentContext) => {
   const cache = createCache();
   const originalRenderPage = ctx.renderPage;
+
+  const sheet = new ServerStyleSheet();
+
   ctx.renderPage = () =>
     originalRenderPage({
       enhanceApp: (App) => (props) =>
@@ -28,12 +32,16 @@ MyDocument.getInitialProps = async (ctx: DocumentContext) => {
 
   const initialProps = await Document.getInitialProps(ctx);
   const style = extractStyle(cache, true);
+
+  const styles = sheet.getStyleElement();
+
   return {
     ...initialProps,
     styles: (
       <>
         {initialProps.styles}
         <style dangerouslySetInnerHTML={{ __html: style }} />
+        {styles}
       </>
     ),
   };
