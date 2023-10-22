@@ -8,17 +8,16 @@ interface LayoutProps {
 
 const Layout = ({ children }: LayoutProps) => {
   return (
-    <LayoutContaier>
+    <LayoutContainer>
       <Header />
       {children}
-    </LayoutContaier>
+    </LayoutContainer>
   );
 };
 
 export { Layout };
 
-const LayoutContaier = styled.div`
-  margin: auto;
+const LayoutContainer = styled.div`
   min-height: 100vh;
   background-color: ${({ theme }) => theme.colors.mainGreen[100]};
 `;
