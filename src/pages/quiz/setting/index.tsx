@@ -1,20 +1,26 @@
 import { Button, Card, Flex, Space } from "antd";
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useRouter } from "next/router";
 import {
   CoreSelect,
   handleSelectChangeType,
 } from "@src/components/core/CoreSelect";
+import { useSaveQuizListToGlobalState } from "./_query/useSaveQuizListToGlobalState";
 import {
   INITIAL_QUIZ_SETTING,
   QUIZ_CATEGORY_OPTIONS,
   QUIZ_COUNT_OPTIONS,
   QUIZ_DIFFICULTY_OPTIONS,
 } from "./_constant/constant";
-import { useSaveQuizListToGlobalState } from "./_query/useSaveQuizListToGlobalState";
 
 const SettingPage = () => {
+  const router = useRouter();
   const [quizSetting, setQuizSetting] = useState(INITIAL_QUIZ_SETTING);
+
+  const handleGoQuizProcess = () => {
+    router.push("/quiz/process");
+  };
 
   const handleSelectChange: handleSelectChangeType = (name, value) => {
     setQuizSetting((prevQuizSetting) => ({
@@ -27,6 +33,7 @@ const SettingPage = () => {
 
   const handleLoadQuiz = async () => {
     await saveQuizList(quizSetting);
+    handleGoQuizProcess();
   };
 
   return (

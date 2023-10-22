@@ -1,10 +1,14 @@
-import { useState } from "react";
+import { useSetRecoilState } from "recoil";
 import axios from "axios";
+import { useState } from "react";
+import { QuizDetail, globalQuizList } from "@src/state/quizList.recoil";
 import { useGlobalDialog } from "@src/hooks/useGlobalDialog";
 import { getQuiz } from "@src/api/quiz/quiz";
 import { QuizSetting } from "../_constant/constant";
+import { convertQuizListToQuizDetailList } from "../_utils/convertQuizListToQuizDetailList";
 
 const useSaveQuizListToGlobalState = () => {
+  const setGlobalQuizList = useSetRecoilState(globalQuizList);
   const [isLoadingQuizList, setIsLoadingQuizList] = useState(false);
   const { showConfirmDialog, setGlobalDialogConfig } = useGlobalDialog();
 
@@ -24,6 +28,11 @@ const useSaveQuizListToGlobalState = () => {
         });
         return;
       }
+
+      const quizDetailList: QuizDetail[] =
+        convertQuizListToQuizDetailList(quizList);
+
+      setGlobalQuizList(quizDetailList);
     } catch (e) {
       if (axios.isAxiosError(e)) {
         showConfirmDialog("퀴즈 목록을 불러오지 못했습니다.");
