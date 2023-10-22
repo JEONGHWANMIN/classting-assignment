@@ -6,6 +6,7 @@ import GlobalStyles from "@src/styles/GlobalStyles";
 import { Layout } from "@src/components/layout/Layout";
 import { styledTheme } from "@src/styles/styledTheme";
 import { antTheme } from "@src/styles/antTheme";
+import { WithFloating } from "@src/components/hoc/WithFloating";
 import "../styles/fonts.css";
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -14,9 +15,11 @@ export default function App({ Component, pageProps }: AppProps) {
       <ThemeProvider theme={styledTheme}>
         <ConfigProvider theme={antTheme}>
           <GlobalStyles />
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
+          <WithFloating>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </WithFloating>
         </ConfigProvider>
       </ThemeProvider>
     </RecoilRoot>
