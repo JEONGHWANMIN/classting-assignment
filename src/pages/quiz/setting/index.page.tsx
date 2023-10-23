@@ -1,14 +1,10 @@
-import { Button, Card, Flex, Space } from "antd";
+import { Button, Card, Space } from "antd";
 import React, { useState } from "react";
 import styled from "styled-components";
-import { CoreSelect, handleSelectChangeType } from "@src/components/core/CoreSelect";
-import { useSaveQuizListToGlobalState } from "./_query/useSaveQuizListToGlobalState";
-import {
-  INITIAL_QUIZ_SETTING,
-  QUIZ_CATEGORY_OPTIONS,
-  QUIZ_COUNT_OPTIONS,
-  QUIZ_DIFFICULTY_OPTIONS,
-} from "./_constant/constant";
+import { handleSelectChangeType } from "@src/components/core/CoreSelect";
+import { useSaveQuizToGlobalState } from "./_query/useSaveQuizToGlobalState";
+import { INITIAL_QUIZ_SETTING } from "./_constant/constant";
+import { QuizSettingForm } from "./_components/QuizSettingForm";
 
 const SettingPage = () => {
   const [quizSetting, setQuizSetting] = useState(INITIAL_QUIZ_SETTING);
@@ -20,45 +16,22 @@ const SettingPage = () => {
     }));
   };
 
-  const { isLoadingQuizList, saveQuizList } = useSaveQuizListToGlobalState();
+  const { isLoadingQuizList, saveQuizAndGoProcessPage } = useSaveQuizToGlobalState();
 
   const handleLoadQuiz = () => {
-    saveQuizList(quizSetting);
+    saveQuizAndGoProcessPage(quizSetting);
   };
 
   return (
     <QuizSettingContainer>
       <StyledCard title="영어 퀴즈 세팅">
-        <SelectContainer>
-          <CoreSelect
-            name="amount"
-            handleSelectChange={handleSelectChange}
-            selectLabel="퀴즈 수 선택"
-            defaultValue={quizSetting.amount}
-            selectItems={QUIZ_COUNT_OPTIONS}
-          />
-          <CoreSelect
-            name="difficulty"
-            handleSelectChange={handleSelectChange}
-            selectLabel="난이도 선택"
-            defaultValue={quizSetting.difficulty}
-            selectItems={QUIZ_DIFFICULTY_OPTIONS}
-          />
-          <CoreSelect
-            name="category"
-            handleSelectChange={handleSelectChange}
-            selectLabel="카테고리 선택"
-            defaultValue={quizSetting.category}
-            selectItems={QUIZ_CATEGORY_OPTIONS}
-          />
-          <StartButton
-            type="primary"
-            onClick={handleLoadQuiz}
-            loading={isLoadingQuizList}
-          >
-            퀴즈 풀기
-          </StartButton>
-        </SelectContainer>
+        <QuizSettingForm
+          quizSetting={quizSetting}
+          handleSelectChange={handleSelectChange}
+        />
+        <StartButton type="primary" onClick={handleLoadQuiz} loading={isLoadingQuizList}>
+          퀴즈 풀기
+        </StartButton>
       </StyledCard>
     </QuizSettingContainer>
   );
@@ -85,12 +58,6 @@ const StyledCard = styled(Card)`
   @media (max-width: 390px) {
     width: 90vw;
   }
-`;
-
-const SelectContainer = styled(Flex)`
-  flex-direction: column;
-  gap: 15px;
-  width: 100%;
 `;
 
 const StartButton = styled(Button)`

@@ -1,21 +1,27 @@
-import { Button, Card, Flex, Radio, RadioChangeEvent, Space, Tag } from "antd";
+import { Card, Flex, RadioChangeEvent, Space } from "antd";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import styled from "styled-components";
-import { CheckCircleTwoTone, CloseCircleTwoTone } from "@ant-design/icons";
-import { styledTheme } from "@src/styles/styledTheme";
 import { useQuizListWithSSR } from "./_hooks/useQuizListWithSSR";
-import { QUIZ_DIFFICULTY_TAG_COLORS } from "./_constant/constant";
+import { QuizResultIcon } from "./_components/QuizResultIcon";
+import { QuizRadioGroup } from "./_components/QuizRadioGroup";
+import { QuizCardBottomButton } from "./_components/QuizCardBottomButton";
+import { QuizInfoSection } from "./_components/QuizInfoSection";
 
 const ProcessPage = () => {
   const router = useRouter();
   const [selectedAnswer, setSelectedAnswer] = useState("");
-  const { quizInfo, step, handleGoNextStep, confirmAnswerSubmission, lastStep } =
-    useQuizListWithSSR();
+
+  const handleGoQuizResult = () => {
+    router.push("/quiz/result");
+  };
 
   const onChange = (e: RadioChangeEvent) => {
     setSelectedAnswer(e.target.value);
   };
+
+  const { quizInfo, step, isNotNextStep, checkAnswerOrMoveToNext, updateQuizEndTime } =
+    useQuizListWithSSR();
 
   const {
     quizAnswers,
@@ -24,66 +30,46 @@ const ProcessPage = () => {
     quizQuestion,
     isQuizAnswered,
     isCorrect,
+    correctAnswer,
   } = quizInfo;
 
-  const isNotNextStep = isQuizAnswered && lastStep;
-  const buttonText = isQuizAnswered ? "다음 문제 풀기" : "정답 확인하기";
+  const goResultPageAndUpdateEndTime = () => {
+    updateQuizEndTime();
+    handleGoQuizResult();
+  };
 
-  const handleButtonEvent = () => {
-    if (isQuizAnswered) {
-      handleGoNextStep();
-      return;
-    }
-    confirmAnswerSubmission(selectedAnswer);
+  const handleAnswerOrNextStep = () => {
+    checkAnswerOrMoveToNext(selectedAnswer);
+    setSelectedAnswer("");
   };
 
   return (
-    <SpaQuizContainer>
+    <QuizProcessContainer>
       <StyledCard title={`Q${step + 1}. ${quizQuestion}`}>
         <Flex justify="space-between" align="center">
-          <StyledInfoTags>
-            <Tag color={QUIZ_DIFFICULTY_TAG_COLORS[quizDifficulty]}>{quizDifficulty}</Tag>
-            <Tag color="processing">{quizCategory}</Tag>
-          </StyledInfoTags>
-          {isQuizAnswered && (
-            <p style={{ whiteSpace: "nowrap" }}>
-              {isCorrect ? (
-                <StyledCheckIcon twoToneColor={styledTheme.colors.mainGreen[200]} />
-              ) : (
-                <CloseCircleTwoTone
-                  style={{
-                    fontSize: "18px",
-                  }}
-                  twoToneColor={styledTheme.colors.error[500]}
-                />
-              )}
-            </p>
-          )}
+          <QuizInfoSection quizCategory={quizCategory} quizDifficulty={quizDifficulty} />
+          <QuizResultIcon isCorrect={isCorrect} isQuizAnswered={isQuizAnswered} />
         </Flex>
-        <StyledRadioGroup onChange={onChange} buttonStyle="outline">
-          {quizAnswers.map((answer) => (
-            <StyledRadioButton key={answer} value={answer} disabled={isQuizAnswered}>
-              {answer}
-            </StyledRadioButton>
-          ))}
-        </StyledRadioGroup>
-        {isNotNextStep ? (
-          <StartButton type="primary" onClick={() => router.push("/quiz/result")}>
-            결과 확인하기
-          </StartButton>
-        ) : (
-          <StartButton type="primary" onClick={handleButtonEvent}>
-            {buttonText}
-          </StartButton>
-        )}
+        <QuizRadioGroup
+          isQuizAnswered={isQuizAnswered}
+          correctAnswer={correctAnswer}
+          quizAnswers={quizAnswers}
+          onChange={onChange}
+        />
+        <QuizCardBottomButton
+          isQuizAnswered={isQuizAnswered}
+          isNotNextStep={isNotNextStep}
+          goResultPageAndUpdateEndTime={goResultPageAndUpdateEndTime}
+          handleAnswerOrNextStep={handleAnswerOrNextStep}
+        />
       </StyledCard>
-    </SpaQuizContainer>
+    </QuizProcessContainer>
   );
 };
 
 export default ProcessPage;
 
-const SpaQuizContainer = styled(Space)`
+const QuizProcessContainer = styled(Space)`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -104,54 +90,4 @@ const StyledCard = styled(Card)`
   @media (max-width: 390px) {
     width: 90vw;
   }
-`;
-
-const StyledInfoTags = styled(Space)`
-  width: 100%;
-  margin-bottom: 10px;
-`;
-
-const StyledRadioGroup = styled(Radio.Group)`
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  gap: 16px;
-
-  .ant-radio-button-wrapper {
-    border-inline-start-width: 1px;
-  }
-
-  .ant-radio-button-wrapper:first-child {
-    border-start-start-radius: 10px;
-    border-end-start-radius: 10px;
-  }
-
-  .ant-radio-button-wrapper:last-child {
-    border-start-end-radius: 10px;
-    border-end-end-radius: 10px;
-  }
-
-  .ant-radio-button-wrapper::before {
-    display: none;
-  }
-`;
-
-const StyledRadioButton = styled(Radio.Button)`
-  width: 100%;
-  height: 45px;
-  display: flex;
-  align-items: center;
-  border-inline-start-width: 1;
-  border-radius: 10px;
-`;
-
-const StartButton = styled(Button)`
-  margin-top: 20px;
-  width: 100%;
-  height: 40px;
-`;
-
-const StyledCheckIcon = styled(CheckCircleTwoTone)`
-  color: ${({ theme }) => theme.colors.mainGreen[200]};
-  font-size: 20px;
 `;

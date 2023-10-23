@@ -1,8 +1,8 @@
 import { Space, Tag } from "antd";
 import React from "react";
 import styled from "styled-components";
-import { QUIZ_DIFFICULTY_TAG_COLORS } from "../_constant/constant";
 import { QUIZ_DIFFICULTY } from "@src/api/quiz/type";
+import { QUIZ_DIFFICULTY_TAG_COLORS } from "../_constant/constant";
 
 interface QuizInfoSectionProps {
   quizDifficulty: QUIZ_DIFFICULTY;

@@ -1,7 +1,7 @@
-import { styledTheme } from "@src/styles/styledTheme";
 import { Radio, RadioChangeEvent } from "antd";
 import React from "react";
 import styled from "styled-components";
+import { QuizRadioButton } from "./QuizRadioButton";
 
 interface QuizRadioGroupProps {
   onChange: (e: RadioChangeEvent) => void;
@@ -19,23 +19,12 @@ const QuizRadioGroup = ({
   return (
     <StyledRadioGroup onChange={onChange} buttonStyle="outline">
       {quizAnswers.map((answer) => (
-        <StyledRadioButton
+        <QuizRadioButton
           key={answer}
-          value={answer}
-          disabled={isQuizAnswered}
-          style={{
-            backgroundColor:
-              isQuizAnswered && answer === correctAnswer
-                ? styledTheme.colors.mainGreen[100]
-                : "",
-            borderColor:
-              isQuizAnswered && answer === correctAnswer
-                ? styledTheme.colors.mainGreen[300]
-                : "",
-          }}
-        >
-          {answer}
-        </StyledRadioButton>
+          answer={answer}
+          correctAnswer={correctAnswer}
+          isQuizAnswered={isQuizAnswered}
+        />
       ))}
     </StyledRadioGroup>
   );
@@ -66,13 +55,4 @@ const StyledRadioGroup = styled(Radio.Group)`
   .ant-radio-button-wrapper::before {
     display: none;
   }
-`;
-
-const StyledRadioButton = styled(Radio.Button)`
-  width: 100%;
-  height: 45px;
-  display: flex;
-  align-items: center;
-  border-inline-start-width: 1;
-  border-radius: 10px;
 `;
