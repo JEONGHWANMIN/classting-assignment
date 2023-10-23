@@ -13,9 +13,7 @@ const QuizPage = () => {
   return (
     <SpaQuizContainer>
       <StyledCard title="영어 퀴즈 풀기">
-        <WelcomeMessage>
-          환영합니다! 😊 영어 퀴즈를 시작해보세요.
-        </WelcomeMessage>
+        <WelcomeMessage>환영합니다! 😊 영어 퀴즈를 시작해보세요.</WelcomeMessage>
         <StartButton type="primary" onClick={handleGoSettingPage}>
           퀴즈 시작
         </StartButton>

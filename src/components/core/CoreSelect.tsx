@@ -1,13 +1,9 @@
-/* eslint-disable no-unused-vars */
 import { Flex, Select, SelectProps } from "antd";
 import { LabeledValue } from "antd/es/select";
 import React from "react";
 import styled from "styled-components";
 
-export type handleSelectChangeType = (
-  name: string,
-  value: string | number
-) => void;
+export type handleSelectChangeType = (name: string, value: string | number) => void;
 
 interface CoreSelectProps extends SelectProps {
   name: string;
