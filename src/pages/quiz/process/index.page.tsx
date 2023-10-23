@@ -1,12 +1,16 @@
-import { Button, Card, Radio, RadioChangeEvent, Space, Tag } from "antd";
+import { Button, Card, Flex, Radio, RadioChangeEvent, Space, Tag } from "antd";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 import styled from "styled-components";
+import { CheckCircleTwoTone, CloseCircleTwoTone } from "@ant-design/icons";
+import { styledTheme } from "@src/styles/styledTheme";
 import { useQuizListWithSSR } from "./_hooks/useQuizListWithSSR";
 import { QUIZ_DIFFICULTY_TAG_COLORS } from "./_constant/constant";
 
 const ProcessPage = () => {
+  const router = useRouter();
   const [selectedAnswer, setSelectedAnswer] = useState("");
-  const { quizInfo, step, handleGoNextStep, confirmAnswerSubmission } =
+  const { quizInfo, step, handleGoNextStep, confirmAnswerSubmission, lastStep } =
     useQuizListWithSSR();
 
   const onChange = (e: RadioChangeEvent) => {
@@ -19,8 +23,10 @@ const ProcessPage = () => {
     quizDifficulty,
     quizQuestion,
     isQuizAnswered,
+    isCorrect,
   } = quizInfo;
 
+  const isNotNextStep = isQuizAnswered && lastStep;
   const buttonText = isQuizAnswered ? "다음 문제 풀기" : "정답 확인하기";
 
   const handleButtonEvent = () => {
@@ -34,22 +40,42 @@ const ProcessPage = () => {
   return (
     <SpaQuizContainer>
       <StyledCard title={`Q${step + 1}. ${quizQuestion}`}>
-        <StyledInfoTags>
-          <Tag color={QUIZ_DIFFICULTY_TAG_COLORS[quizDifficulty]}>
-            {quizDifficulty}
-          </Tag>
-          <Tag color="processing">{quizCategory}</Tag>
-        </StyledInfoTags>
+        <Flex justify="space-between" align="center">
+          <StyledInfoTags>
+            <Tag color={QUIZ_DIFFICULTY_TAG_COLORS[quizDifficulty]}>{quizDifficulty}</Tag>
+            <Tag color="processing">{quizCategory}</Tag>
+          </StyledInfoTags>
+          {isQuizAnswered && (
+            <p style={{ whiteSpace: "nowrap" }}>
+              {isCorrect ? (
+                <StyledCheckIcon twoToneColor={styledTheme.colors.mainGreen[200]} />
+              ) : (
+                <CloseCircleTwoTone
+                  style={{
+                    fontSize: "18px",
+                  }}
+                  twoToneColor={styledTheme.colors.error[500]}
+                />
+              )}
+            </p>
+          )}
+        </Flex>
         <StyledRadioGroup onChange={onChange} buttonStyle="outline">
           {quizAnswers.map((answer) => (
-            <StyledRadioButton key={answer} value={answer}>
+            <StyledRadioButton key={answer} value={answer} disabled={isQuizAnswered}>
               {answer}
             </StyledRadioButton>
           ))}
         </StyledRadioGroup>
-        <StartButton type="primary" onClick={handleButtonEvent}>
-          {buttonText}
-        </StartButton>
+        {isNotNextStep ? (
+          <StartButton type="primary" onClick={() => router.push("/quiz/result")}>
+            결과 확인하기
+          </StartButton>
+        ) : (
+          <StartButton type="primary" onClick={handleButtonEvent}>
+            {buttonText}
+          </StartButton>
+        )}
       </StyledCard>
     </SpaQuizContainer>
   );
@@ -123,4 +149,9 @@ const StartButton = styled(Button)`
   margin-top: 20px;
   width: 100%;
   height: 40px;
+`;
+
+const StyledCheckIcon = styled(CheckCircleTwoTone)`
+  color: ${({ theme }) => theme.colors.mainGreen[200]};
+  font-size: 20px;
 `;
