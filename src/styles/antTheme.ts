@@ -1,8 +1,9 @@
 import { ThemeConfig } from "antd";
+import { styledTheme } from "./styledTheme";
 
 export const antTheme: ThemeConfig = {
   token: {
-    colorPrimary: "#69d392",
-    colorError: "#F44336",
+    colorPrimary: styledTheme.colors.mainGreen[200],
+    colorError: styledTheme.colors.error[500],
   },
 };
