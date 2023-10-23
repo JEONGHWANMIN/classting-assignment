@@ -13,7 +13,7 @@ export interface QuizDetail extends QuizQuestion {
   userAnswer?: string;
   isAnswered: boolean;
   isCorrect?: boolean;
-  shuffledOptions: string[];
+  shuffledAnswers: string[];
 }
 
 const { persistAtom: quizPersistAtom } = recoilPersist({
