@@ -14,6 +14,7 @@ const useQuizListWithSSR = () => {
   const lastStep = step === quizList.length - 1;
 
   const getCurrentStepQuiz = () => quizList[step] || {};
+
   const {
     question: quizQuestion = "-",
     shuffledAnswers: quizAnswers = [],
@@ -24,8 +25,17 @@ const useQuizListWithSSR = () => {
     isCorrect,
   } = getCurrentStepQuiz();
 
-  const handleAnswerSubmission = (selectAnswer: string) => {
-    const isCorrect = selectAnswer === correctAnswer;
+  const isNotNextStep = isQuizAnswered && lastStep;
+
+  const showQuizResultMessage = (isCorrect: boolean) => {
+    if (isCorrect) {
+      message.success("맞았어요! 정답입니다.");
+      return;
+    }
+    message.error("틀렸어요! 정답이 아닙니다.");
+  };
+
+  const updateQuizStepInfo = (isCorrect: boolean, selectAnswer: string) => {
     const updatedQuizList = [...quizList];
     updatedQuizList[step] = {
       ...getCurrentStepQuiz(),
@@ -37,10 +47,13 @@ const useQuizListWithSSR = () => {
       ...prev,
       quizList: updatedQuizList,
     }));
+  };
 
-    isCorrect
-      ? message.success("맞았어요! 정답입니다.")
-      : message.error("틀렸어요! 정답이 아닙니다.");
+  const handleAnswerSubmission = (selectAnswer: string) => {
+    const isCorrect = selectAnswer === correctAnswer;
+
+    updateQuizStepInfo(isCorrect, selectAnswer);
+    showQuizResultMessage(isCorrect);
   };
 
   const confirmAnswerSubmission = (selectAnswer: string) => {
@@ -57,8 +70,21 @@ const useQuizListWithSSR = () => {
     });
   };
 
+  const updateQuizEndTime = () => {
+    setGlobalQuiz((prev) => ({ ...prev, endTime: new Date() }));
+  };
+
   const handleGoNextStep = () => {
     setGlobalQuiz((prev) => ({ ...prev, step: prev.step + 1 }));
+  };
+
+  const checkAnswerOrMoveToNext = (selectedAnswer: string) => {
+    if (isQuizAnswered) {
+      handleGoNextStep();
+      return;
+    }
+
+    confirmAnswerSubmission(selectedAnswer);
   };
 
   const quizInfo = {
@@ -68,14 +94,15 @@ const useQuizListWithSSR = () => {
     quizCategory,
     isQuizAnswered,
     isCorrect,
+    correctAnswer,
   };
 
   return {
     step,
-    lastStep,
+    isNotNextStep,
     quizInfo,
-    handleGoNextStep,
-    confirmAnswerSubmission,
+    checkAnswerOrMoveToNext,
+    updateQuizEndTime,
   };
 };
 
