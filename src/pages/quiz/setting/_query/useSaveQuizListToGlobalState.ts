@@ -1,18 +1,22 @@
 import { useSetRecoilState } from "recoil";
 import axios from "axios";
 import { useState } from "react";
-import { quizTimeAtom } from "@src/state/quizTime.recoil";
-import { QuizDetail, globalQuizList } from "@src/state/quizList.recoil";
+import { useRouter } from "next/router";
+import { QuizDetail, globalQuizState } from "@src/state/quiz.recoil";
 import { useGlobalDialog } from "@src/hooks/useGlobalDialog";
 import { getQuiz } from "@src/api/quiz/quiz";
 import { QuizSetting } from "../_constant/constant";
 import { convertQuizListToQuizDetailList } from "../_utils/convertQuizListToQuizDetailList";
 
 const useSaveQuizListToGlobalState = () => {
-  const setGlobalQuizList = useSetRecoilState(globalQuizList);
-  const setGlobalQuizTime = useSetRecoilState(quizTimeAtom);
+  const router = useRouter();
+  const setGlobalQuiz = useSetRecoilState(globalQuizState);
   const [isLoadingQuizList, setIsLoadingQuizList] = useState(false);
   const { showConfirmDialog, setGlobalDialogConfig } = useGlobalDialog();
+
+  const goQuizProcess = () => {
+    router.push("/quiz/process");
+  };
 
   const saveQuizList = async (quizSetting: QuizSetting) => {
     setIsLoadingQuizList(true);
@@ -34,11 +38,15 @@ const useSaveQuizListToGlobalState = () => {
       const quizDetailList: QuizDetail[] =
         convertQuizListToQuizDetailList(quizList);
 
-      setGlobalQuizList(quizDetailList);
-      setGlobalQuizTime((prevQuizTime) => ({
-        ...prevQuizTime,
+      setGlobalQuiz((prevQuiz) => ({
+        ...prevQuiz,
+        step: 0,
+        endTime: null,
         startTime: new Date(),
+        quizList: quizDetailList,
       }));
+
+      goQuizProcess();
     } catch (e) {
       if (axios.isAxiosError(e)) {
         showConfirmDialog("퀴즈 목록을 불러오지 못했습니다.");
