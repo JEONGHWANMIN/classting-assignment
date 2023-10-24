@@ -1,7 +1,7 @@
 import React from "react";
 import { screen } from "@testing-library/react";
 import { CoreSelect } from "@src/components/core/CoreSelect";
-import { render } from "./render/render";
+import { render } from "./_render/render";
 
 describe("공통 컴포넌트 테스트", () => {
   test("공통 컴포넌트", () => {
