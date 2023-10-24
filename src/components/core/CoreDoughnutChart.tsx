@@ -8,10 +8,11 @@ Chart.register(ArcElement, Tooltip, Legend);
 interface CoreDoughnutChartProps {
   data: ChartData<"doughnut">;
   options?: ChartOptions;
+  style?: React.CSSProperties;
 }
 
-const CoreDoughnutChart = ({ data, options }: CoreDoughnutChartProps) => {
-  return <Doughnut data={data} options={options} />;
+const CoreDoughnutChart = ({ data, options, style }: CoreDoughnutChartProps) => {
+  return <Doughnut data={data} options={options} style={style} />;
 };
 
 export { CoreDoughnutChart };
