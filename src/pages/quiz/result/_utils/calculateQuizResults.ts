@@ -3,20 +3,25 @@ import { dateUtils } from "@src/utils/dateUtils";
 
 interface CalculateQuizResults {
   quizList: QuizDetail[];
-  quizStartTime: Date | null;
-  quizEndTime: Date | null;
+  startTime: Date | null;
+  endTime: Date | null;
 }
 
 export const calculateQuizResults = ({
   quizList,
-  quizEndTime,
-  quizStartTime,
+  startTime,
+  endTime,
 }: CalculateQuizResults) => {
+  const PERCENTAGE = 100;
+  const quizCount = quizList.length;
+
   const correctAnswersCount = quizList.filter((quiz) => quiz.isCorrect).length;
-  const inCorrectAnswersCount = quizList.length - correctAnswersCount;
-  const correctAnswersRatio = correctAnswersCount / quizList.length;
-  const inCorrectAnswersRatio = inCorrectAnswersCount / quizList.length;
-  const timeDifference = dateUtils.calculateTimeDifference(quizStartTime, quizEndTime);
+  const inCorrectAnswersCount = quizCount - correctAnswersCount;
+
+  const correctAnswersRatio = (correctAnswersCount / quizCount) * PERCENTAGE;
+  const inCorrectAnswersRatio = (inCorrectAnswersCount / quizCount) * PERCENTAGE;
+
+  const timeDifference = dateUtils.calculateTimeDifference(startTime, endTime);
 
   return {
     correctAnswersCount,

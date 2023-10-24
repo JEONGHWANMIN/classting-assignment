@@ -1,3 +1,7 @@
+import { KOR_TIME_UNIT } from "@src/constant/constant";
+
+export type TimeUnit = "hours" | "minutes" | "seconds";
+
 export const dateUtils = {
   calculateTimeDifference(startDate: Date | null, endDate: Date | null) {
     if (!startDate || !endDate)
@@ -23,5 +27,9 @@ export const dateUtils = {
       minutes,
       seconds,
     };
+  },
+
+  formatTimeUnitToKorUnit(time: number, unit: TimeUnit) {
+    return time > 0 ? `${time}${KOR_TIME_UNIT[unit]}` : "";
   },
 };
