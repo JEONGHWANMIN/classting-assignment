@@ -7,7 +7,7 @@ import { useGlobalDialog } from "@src/hooks/useGlobalDialog";
 const useQuizListWithSSR = () => {
   const { isServerSideRendered } = useServerSideRenderingCheck();
   const [globalQuiz, setGlobalQuiz] = useRecoilState(globalQuizState);
-  const { showConfirmDialog, setGlobalDialogConfig } = useGlobalDialog();
+  const { setGlobalDialogConfig } = useGlobalDialog();
 
   const quizList = isServerSideRendered ? [] : globalQuiz.quizList;
   const step = isServerSideRendered ? 0 : globalQuiz.step;
@@ -28,11 +28,9 @@ const useQuizListWithSSR = () => {
   const isNotNextStep = isQuizAnswered && lastStep;
 
   const showQuizResultMessage = (isCorrect: boolean) => {
-    if (isCorrect) {
-      message.success("맞았어요! 정답입니다.");
-      return;
-    }
-    message.error("틀렸어요! 정답이 아닙니다.");
+    isCorrect
+      ? message.success("맞았어요! 정답입니다.")
+      : message.error("틀렸어요! 정답이 아닙니다.");
   };
 
   const updateQuizStepInfo = (isCorrect: boolean, selectAnswer: string) => {
@@ -58,7 +56,7 @@ const useQuizListWithSSR = () => {
 
   const confirmAnswerSubmission = (selectAnswer: string) => {
     if (!selectAnswer) {
-      showConfirmDialog("정답을 선택했는지 확인해주세요 :)");
+      message.warning("정답을 선택했는지 확인해주세요 :)");
       return;
     }
 
@@ -79,12 +77,7 @@ const useQuizListWithSSR = () => {
   };
 
   const checkAnswerOrMoveToNext = (selectedAnswer: string) => {
-    if (isQuizAnswered) {
-      handleGoNextStep();
-      return;
-    }
-
-    confirmAnswerSubmission(selectedAnswer);
+    isQuizAnswered ? handleGoNextStep() : confirmAnswerSubmission(selectedAnswer);
   };
 
   const quizInfo = {

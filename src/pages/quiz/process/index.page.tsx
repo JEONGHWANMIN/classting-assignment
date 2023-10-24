@@ -1,6 +1,6 @@
 import { Card, Flex, RadioChangeEvent, Space } from "antd";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useQuizListWithSSR } from "./_hooks/useQuizListWithSSR";
 import { QuizResultIcon } from "./_components/QuizResultIcon";
@@ -12,6 +12,13 @@ const ProcessPage = () => {
   const router = useRouter();
   const [selectedAnswer, setSelectedAnswer] = useState("");
 
+  const { quizInfo, step, isNotNextStep, checkAnswerOrMoveToNext, updateQuizEndTime } =
+    useQuizListWithSSR();
+
+  useEffect(() => {
+    setSelectedAnswer("");
+  }, [step]);
+
   const handleGoQuizResult = () => {
     router.push("/quiz/result");
   };
@@ -19,9 +26,6 @@ const ProcessPage = () => {
   const onChange = (e: RadioChangeEvent) => {
     setSelectedAnswer(e.target.value);
   };
-
-  const { quizInfo, step, isNotNextStep, checkAnswerOrMoveToNext, updateQuizEndTime } =
-    useQuizListWithSSR();
 
   const {
     quizAnswers,
@@ -40,7 +44,6 @@ const ProcessPage = () => {
 
   const handleAnswerOrNextStep = () => {
     checkAnswerOrMoveToNext(selectedAnswer);
-    setSelectedAnswer("");
   };
 
   return (
