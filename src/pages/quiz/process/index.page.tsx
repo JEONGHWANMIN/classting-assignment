@@ -1,6 +1,6 @@
 import { Card, Flex, RadioChangeEvent, Space } from "antd";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useQuizListWithSSR } from "./_hooks/useQuizListWithSSR";
 import { QuizResultIcon } from "./_components/QuizResultIcon";
@@ -12,6 +12,17 @@ const ProcessPage = () => {
   const router = useRouter();
   const [selectedAnswer, setSelectedAnswer] = useState("");
 
+  const resetSelectedAnswer = () => {
+    setSelectedAnswer("");
+  };
+
+  const { quizInfo, step, isNotNextStep, checkAnswerOrMoveToNext, updateQuizEndTime } =
+    useQuizListWithSSR();
+
+  useEffect(() => {
+    resetSelectedAnswer();
+  }, [step]);
+
   const handleGoQuizResult = () => {
     router.push("/quiz/result");
   };
@@ -19,9 +30,6 @@ const ProcessPage = () => {
   const onChange = (e: RadioChangeEvent) => {
     setSelectedAnswer(e.target.value);
   };
-
-  const { quizInfo, step, isNotNextStep, checkAnswerOrMoveToNext, updateQuizEndTime } =
-    useQuizListWithSSR();
 
   const {
     quizAnswers,
@@ -40,7 +48,6 @@ const ProcessPage = () => {
 
   const handleAnswerOrNextStep = () => {
     checkAnswerOrMoveToNext(selectedAnswer);
-    setSelectedAnswer("");
   };
 
   return (
@@ -82,12 +89,13 @@ const StyledCard = styled(Card)`
   text-align: center;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  min-height: 423px;
 
   .ant-card-head-title {
     white-space: normal;
   }
 
-  @media (max-width: 390px) {
+  @media (max-width: 430px) {
     width: 90vw;
   }
 `;

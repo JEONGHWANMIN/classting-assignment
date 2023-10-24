@@ -55,7 +55,7 @@ const StyledCard = styled(Card)`
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 
-  @media (max-width: 390px) {
+  @media (max-width: 430px) {
     width: 90vw;
   }
 `;
