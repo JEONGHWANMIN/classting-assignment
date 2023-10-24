@@ -2,17 +2,13 @@ import { Flex } from "antd";
 import React from "react";
 import styled from "styled-components";
 
-interface QuizAnswersResultItemProps {
+interface QuizResultItemProps {
   type?: "correct" | "incorrect" | "none";
   label: string;
   content: string;
 }
 
-const QuizAnswersResultItem = ({
-  type = "none",
-  label,
-  content,
-}: QuizAnswersResultItemProps) => {
+const QuizResultItem = ({ type = "none", label, content }: QuizResultItemProps) => {
   const isNoColorLabel = type === "none";
   return (
     <Flex align="center" gap={10}>
@@ -23,7 +19,7 @@ const QuizAnswersResultItem = ({
   );
 };
 
-export { QuizAnswersResultItem };
+export { QuizResultItem };
 
 const StyledColorBoxLabel = styled.div<{ type: "correct" | "incorrect" }>`
   width: 15px;

@@ -2,10 +2,9 @@ import { Button, Card, Divider, Space } from "antd";
 import React from "react";
 import styled from "styled-components";
 import { useRouter } from "next/router";
-import { styledTheme } from "@src/styles/styledTheme";
-import { CoreDoughnutChart } from "@src/components/core/CoreDoughnutChart";
 import { useQuizResultWithSSR } from "./_hooks/useQuizResultWithSSR";
-import { QuizAnswersResultItem } from "./_components/QuizAnswersResultItem";
+import { QuizResultInfo } from "./_components/QuizResultInfo";
+import { QuizDoughnutChart } from "./_components/QuizDoughnutChart";
 
 const ResultPage = () => {
   const router = useRouter();
@@ -19,31 +18,19 @@ const ResultPage = () => {
 
   const { correctResultText, inCorrectResultText, elapsedTimeText } = resultTexts;
 
-  const data = {
-    labels: ["정답", "오답"],
-    datasets: [
-      {
-        data: [correctAnswersRatio, inCorrectAnswersRatio],
-        backgroundColor: [
-          styledTheme.colors.mainGreen[100],
-          styledTheme.colors.error[300],
-        ],
-      },
-    ],
-  };
-
   return (
     <QuizResultContainer>
       <StyledCard title="퀴즈 결과">
-        <CoreDoughnutChart data={data} />
-        <Divider plain>결과</Divider>
-        <QuizAnswersResultItem type="correct" label="정답" content={correctResultText} />
-        <QuizAnswersResultItem
-          type="incorrect"
-          label="오답"
-          content={inCorrectResultText}
+        <QuizDoughnutChart
+          correctAnswersRatio={correctAnswersRatio}
+          inCorrectAnswersRatio={inCorrectAnswersRatio}
         />
-        <QuizAnswersResultItem label="걸린시간" content={elapsedTimeText} />
+        <Divider plain>결과</Divider>
+        <QuizResultInfo
+          correctResultText={correctResultText}
+          elapsedTimeText={elapsedTimeText}
+          inCorrectResultText={inCorrectResultText}
+        />
         <NoteButton type="primary" onClick={handleGoNotesPage}>
           오답 노트
         </NoteButton>
