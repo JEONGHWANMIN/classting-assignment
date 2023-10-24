@@ -12,11 +12,15 @@ const ProcessPage = () => {
   const router = useRouter();
   const [selectedAnswer, setSelectedAnswer] = useState("");
 
+  const resetSelectedAnswer = () => {
+    setSelectedAnswer("");
+  };
+
   const { quizInfo, step, isNotNextStep, checkAnswerOrMoveToNext, updateQuizEndTime } =
     useQuizListWithSSR();
 
   useEffect(() => {
-    setSelectedAnswer("");
+    resetSelectedAnswer();
   }, [step]);
 
   const handleGoQuizResult = () => {
@@ -85,12 +89,13 @@ const StyledCard = styled(Card)`
   text-align: center;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  min-height: 423px;
 
   .ant-card-head-title {
     white-space: normal;
   }
 
-  @media (max-width: 390px) {
+  @media (max-width: 430px) {
     width: 90vw;
   }
 `;

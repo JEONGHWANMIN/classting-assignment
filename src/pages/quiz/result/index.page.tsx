@@ -1,18 +1,23 @@
-import { Button, Card, Space } from "antd";
+import { Button, Card, Divider, Space } from "antd";
 import React from "react";
 import styled from "styled-components";
+import { useRouter } from "next/router";
 import { styledTheme } from "@src/styles/styledTheme";
 import { CoreDoughnutChart } from "@src/components/core/CoreDoughnutChart";
 import { useQuizResultWithSSR } from "./_hooks/useQuizResultWithSSR";
+import { QuizAnswersResultItem } from "./_components/QuizAnswersResultItem";
 
 const ResultPage = () => {
-  const {
-    correctAnswersCount,
-    correctAnswersRatio,
-    inCorrectAnswersCount,
-    inCorrectAnswersRatio,
-    timeDifference,
-  } = useQuizResultWithSSR();
+  const router = useRouter();
+
+  const handleGoNotesPage = () => {
+    router.push("/quiz/notes");
+  };
+
+  const { correctAnswersRatio, inCorrectAnswersRatio, resultTexts } =
+    useQuizResultWithSSR();
+
+  const { correctResultText, inCorrectResultText, elapsedTimeText } = resultTexts;
 
   const data = {
     labels: ["정답", "오답"],
@@ -28,20 +33,28 @@ const ResultPage = () => {
   };
 
   return (
-    <QuizSettingContainer>
+    <QuizResultContainer>
       <StyledCard title="퀴즈 결과">
-        <h1>{`정답 수 : ${correctAnswersCount}`}</h1>
-        <h1>{`오답 수 : ${inCorrectAnswersCount}`}</h1>
-        <h1>{`걸린시간 : ${timeDifference.hours}시간 ${timeDifference.minutes}분 ${timeDifference.seconds}초`}</h1>
-        <CoreDoughnutChart data={data} options={{}} />
+        <CoreDoughnutChart data={data} />
+        <Divider plain>결과</Divider>
+        <QuizAnswersResultItem type="correct" label="정답" content={correctResultText} />
+        <QuizAnswersResultItem
+          type="incorrect"
+          label="오답"
+          content={inCorrectResultText}
+        />
+        <QuizAnswersResultItem label="걸린시간" content={elapsedTimeText} />
+        <NoteButton type="primary" onClick={handleGoNotesPage}>
+          오답 노트
+        </NoteButton>
       </StyledCard>
-    </QuizSettingContainer>
+    </QuizResultContainer>
   );
 };
 
 export default ResultPage;
 
-const QuizSettingContainer = styled(Space)`
+const QuizResultContainer = styled(Space)`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -57,13 +70,13 @@ const StyledCard = styled(Card)`
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 
-  @media (max-width: 390px) {
+  @media (max-width: 430px) {
     width: 90vw;
   }
 `;
 
-const StartButton = styled(Button)`
+const NoteButton = styled(Button)`
   width: 100%;
   height: 40px;
-  margin-top: 20px;
+  margin-top: 10px;
 `;

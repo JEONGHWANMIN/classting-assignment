@@ -11,20 +11,20 @@ const QuizPage = () => {
   };
 
   return (
-    <SpaQuizContainer>
+    <QuizContainer>
       <StyledCard title="영어 퀴즈 풀기">
         <WelcomeMessage>환영합니다! 😊 영어 퀴즈를 시작해보세요.</WelcomeMessage>
         <StartButton type="primary" onClick={handleGoSettingPage}>
           퀴즈 시작
         </StartButton>
       </StyledCard>
-    </SpaQuizContainer>
+    </QuizContainer>
   );
 };
 
 export default QuizPage;
 
-const SpaQuizContainer = styled(Space)`
+const QuizContainer = styled(Space)`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -37,7 +37,7 @@ const StyledCard = styled(Card)`
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 
-  @media (max-width: 390px) {
+  @media (max-width: 430px) {
     width: 90vw;
   }
 `;
