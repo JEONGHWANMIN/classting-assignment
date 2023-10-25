@@ -13,6 +13,7 @@ const useQuizResultWithSSR = () => {
   const inCorrectQuizList = quizList.filter((quiz) => !quiz.isCorrect);
 
   const isLastStep = inCorrectQuizList.length - 1 === notesStep;
+  const isFirstStep = notesStep <= 0;
 
   const goNextStep = () => {
     setNotesStep((prevNoteStep) => prevNoteStep + 1);
@@ -35,16 +36,20 @@ const useQuizResultWithSSR = () => {
     description,
   } = getCurrentStepQuiz();
 
-  const updateQuizStepDescription = (description: string) => {
-    const updatedQuizList = [...inCorrectQuizList];
-    updatedQuizList[notesStep] = {
-      ...getCurrentStepQuiz(),
-      description,
-    };
-    setGlobalQuiz((prev) => ({
-      ...prev,
-      quizList: updatedQuizList,
-    }));
+  const updateQuizDescriptionInGlobalList = (description: string) => {
+    setGlobalQuiz((prev) => {
+      const updatedQuizList = prev.quizList.map((quizItem) => {
+        if (quizItem.question === quizQuestion) {
+          return { ...quizItem, description };
+        }
+        return quizItem;
+      });
+
+      return {
+        ...prev,
+        quizList: updatedQuizList,
+      };
+    });
   };
 
   const quizInfo = {
@@ -62,9 +67,10 @@ const useQuizResultWithSSR = () => {
     notesStep,
     quizInfo,
     isLastStep,
+    isFirstStep,
     goNextStep,
     goPreviousStep,
-    updateQuizStepDescription,
+    updateQuizDescriptionInGlobalList,
   };
 };
 

@@ -40,6 +40,7 @@ const StyledRadioGroup = styled(Radio.Group)`
   align-items: center;
   flex-direction: column;
   gap: 16px;
+  min-height: 228px;
 
   .ant-radio-button-wrapper {
     border-inline-start-width: 1px;

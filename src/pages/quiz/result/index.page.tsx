@@ -9,6 +9,10 @@ import { QuizDoughnutChart } from "./_components/QuizDoughnutChart";
 const ResultPage = () => {
   const router = useRouter();
 
+  const handleGoQuizPage = () => {
+    router.push("/quiz");
+  };
+
   const handleGoNotesPage = () => {
     router.push("/quiz/notes");
   };
@@ -31,9 +35,10 @@ const ResultPage = () => {
           elapsedTimeText={elapsedTimeText}
           inCorrectResultText={inCorrectResultText}
         />
-        <NoteButton type="primary" onClick={handleGoNotesPage}>
-          오답 노트
+        <NoteButton type="primary" onClick={handleGoQuizPage}>
+          홈으로
         </NoteButton>
+        <NoteButton onClick={handleGoNotesPage}>오답 노트</NoteButton>
       </StyledCard>
     </QuizResultContainer>
   );

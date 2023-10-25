@@ -22,11 +22,21 @@ const QuizRadioButton = ({
   const isUserAnswer = isQuizAnswered && answer === userAnswer;
   return (
     <StyledRadioButton
+      {...props}
       value={answer}
       disabled={isQuizAnswered}
-      isAnswerCorrect={isAnswerCorrect}
-      isUserAnswer={isUserAnswer}
-      {...props}
+      style={{
+        backgroundColor: isAnswerCorrect
+          ? styledTheme.colors.mainGreen[100]
+          : isUserAnswer
+          ? styledTheme.colors.warning[300]
+          : "",
+        borderColor: isAnswerCorrect
+          ? styledTheme.colors.mainGreen[300]
+          : isUserAnswer
+          ? styledTheme.colors.warning[400]
+          : "",
+      }}
     >
       {answer}
     </StyledRadioButton>
@@ -35,28 +45,11 @@ const QuizRadioButton = ({
 
 export { QuizRadioButton };
 
-const StyledRadioButton = styled(Radio.Button)<{
-  isAnswerCorrect: boolean;
-  isUserAnswer: boolean;
-}>`
+const StyledRadioButton = styled(Radio.Button)`
   width: 100%;
   height: 45px;
   display: flex;
   align-items: center;
   border-inline-start-width: 1;
   border-radius: 10px;
-
-  background-color: ${({ isAnswerCorrect, isUserAnswer }) =>
-    isAnswerCorrect
-      ? styledTheme.colors.mainGreen[100]
-      : isUserAnswer
-      ? styledTheme.colors.warning[300]
-      : ""} !important;
-
-  border-color: ${({ isAnswerCorrect, isUserAnswer }) =>
-    isAnswerCorrect
-      ? styledTheme.colors.mainGreen[300]
-      : isUserAnswer
-      ? styledTheme.colors.warning[400]
-      : ""} !important;
 `;

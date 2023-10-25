@@ -16,8 +16,13 @@ const ProcessPage = () => {
     setSelectedAnswer("");
   };
 
-  const { quizInfo, step, isNotNextStep, checkAnswerOrMoveToNext, updateQuizEndTime } =
-    useQuizListWithSSR();
+  const {
+    quizInfo,
+    step,
+    isNotNextStep,
+    checkAnswerOrMoveToNext,
+    updateQuizEndTimeAndProcess,
+  } = useQuizListWithSSR();
 
   useEffect(() => {
     resetSelectedAnswer();
@@ -42,7 +47,7 @@ const ProcessPage = () => {
   } = quizInfo;
 
   const goResultPageAndUpdateEndTime = () => {
-    updateQuizEndTime();
+    updateQuizEndTimeAndProcess();
     handleGoQuizResult();
   };
 

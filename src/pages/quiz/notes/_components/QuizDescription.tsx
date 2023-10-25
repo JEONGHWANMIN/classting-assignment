@@ -46,6 +46,7 @@ const QuizDescription = ({
             </Button>
           </StyledButtonContainer>
           <StyledTextArea
+            autoFocus
             rows={10}
             disabled={!isEditMode}
             value={isEditMode ? description : quizStepDescription}
@@ -53,17 +54,13 @@ const QuizDescription = ({
           />
         </QuizContentContainer>
       ) : (
-        <QuizContentContainer
-          style={{
-            width: "100%",
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
+        <QuizContentContainer>
           <StyledButtonContainer>
-            <Button onClick={changeDisabled}>문제해설 추가</Button>
+            <Button onClick={changeDisabled}>오답해설 추가</Button>
           </StyledButtonContainer>
-          <StyledDescription>{quizStepDescription}</StyledDescription>
+          {quizStepDescription && (
+            <StyledDescription>{quizStepDescription}</StyledDescription>
+          )}
         </QuizContentContainer>
       )}
     </DescribeContainer>
@@ -89,11 +86,11 @@ const StyledDescription = styled.p`
   white-space: pre-wrap;
   text-align: left;
   min-height: 100px;
-  max-height: 300px;
-  overflow: scroll;
+  max-height: 200px;
   line-height: 1.2;
   padding: 8px;
   letter-spacing: 0.4;
+  overflow-y: scroll;
 `;
 
 const StyledTextArea = styled.textarea`

@@ -7,6 +7,7 @@ export interface LocalStorageQuiz {
   endTime: null | Date;
   quizList: QuizDetail[];
   step: number;
+  isProcess: boolean;
 }
 
 export interface QuizDetail extends QuizQuestion {
@@ -25,6 +26,7 @@ const { persistAtom: quizPersistAtom } = recoilPersist({
 export const globalQuizState = atom<LocalStorageQuiz>({
   key: "quiz",
   default: {
+    isProcess: false,
     startTime: null,
     endTime: null,
     quizList: [],

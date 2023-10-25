@@ -15,8 +15,8 @@ const useQuizListWithSSR = () => {
 
   const getCurrentStepQuiz = () => quizList[step] || {};
 
-  const updateQuizEndTime = () => {
-    setGlobalQuiz((prev) => ({ ...prev, endTime: new Date() }));
+  const updateQuizEndTimeAndProcess = () => {
+    setGlobalQuiz((prev) => ({ ...prev, endTime: new Date(), isProcess: false }));
   };
 
   const handleGoNextStep = () => {
@@ -95,7 +95,7 @@ const useQuizListWithSSR = () => {
     isNotNextStep,
     quizInfo,
     checkAnswerOrMoveToNext,
-    updateQuizEndTime,
+    updateQuizEndTimeAndProcess,
   };
 };
 

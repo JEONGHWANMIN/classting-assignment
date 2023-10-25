@@ -25,6 +25,7 @@ const useSaveQuizToGlobalState = () => {
       endTime: null,
       startTime: new Date(),
       quizList: quizDetailList,
+      isProcess: true,
     }));
   };
 

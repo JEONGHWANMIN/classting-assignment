@@ -2,6 +2,7 @@ import { Button, Card, Flex, Space } from "antd";
 import { useRouter } from "next/router";
 import React from "react";
 import styled from "styled-components";
+import { useCheckQuizProcess } from "./_hooks/useCheckQuizProcess";
 
 const QuizPage = () => {
   const router = useRouter();
@@ -14,6 +15,8 @@ const QuizPage = () => {
     router.push("/quiz/notes");
   };
 
+  const { isShowGoNotesButton } = useCheckQuizProcess();
+
   return (
     <QuizContainer>
       <StyledCard title="영어 퀴즈 풀기">
@@ -22,7 +25,9 @@ const QuizPage = () => {
           <StartButton type="primary" onClick={handleGoSettingPage}>
             퀴즈 시작
           </StartButton>
-          <StartButton onClick={handleGoNotesPage}>오답 노트</StartButton>
+          {isShowGoNotesButton && (
+            <StartButton onClick={handleGoNotesPage}>오답 노트</StartButton>
+          )}
         </ButtonContainer>
       </StyledCard>
     </QuizContainer>
