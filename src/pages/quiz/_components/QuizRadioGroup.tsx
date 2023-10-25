@@ -4,17 +4,19 @@ import styled from "styled-components";
 import { QuizRadioButton } from "./QuizRadioButton";
 
 interface QuizRadioGroupProps {
-  onChange: (e: RadioChangeEvent) => void;
   quizAnswers: string[];
   isQuizAnswered: boolean;
   correctAnswer: string | number;
+  userAnswer?: string;
+  onChange?: (e: RadioChangeEvent) => void;
 }
 
 const QuizRadioGroup = ({
   correctAnswer,
   isQuizAnswered,
-  onChange,
   quizAnswers,
+  userAnswer,
+  onChange,
 }: QuizRadioGroupProps) => {
   return (
     <StyledRadioGroup onChange={onChange} buttonStyle="outline">
@@ -24,6 +26,7 @@ const QuizRadioGroup = ({
           answer={answer}
           correctAnswer={correctAnswer}
           isQuizAnswered={isQuizAnswered}
+          userAnswer={userAnswer}
         />
       ))}
     </StyledRadioGroup>

@@ -10,10 +10,11 @@ export interface LocalStorageQuiz {
 }
 
 export interface QuizDetail extends QuizQuestion {
-  userAnswer?: string;
   isAnswered: boolean;
-  isCorrect?: boolean;
   shuffledAnswers: string[];
+  description: string;
+  isCorrect?: boolean;
+  userAnswer?: string;
 }
 
 const { persistAtom: quizPersistAtom } = recoilPersist({

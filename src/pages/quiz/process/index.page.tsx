@@ -4,9 +4,9 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useQuizListWithSSR } from "./_hooks/useQuizListWithSSR";
 import { QuizResultIcon } from "./_components/QuizResultIcon";
-import { QuizRadioGroup } from "./_components/QuizRadioGroup";
+import { QuizRadioGroup } from "../_components/QuizRadioGroup";
 import { QuizCardBottomButton } from "./_components/QuizCardBottomButton";
-import { QuizInfoSection } from "./_components/QuizInfoSection";
+import { QuizInfoSection } from "../_components/QuizInfoSection";
 
 const ProcessPage = () => {
   const router = useRouter();
