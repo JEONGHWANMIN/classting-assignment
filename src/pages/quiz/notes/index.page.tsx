@@ -17,7 +17,6 @@ const NotesPage = () => {
   };
 
   const {
-    notesStep,
     quizInfo,
     isLastStep,
     isFirstStep,
@@ -39,11 +38,8 @@ const NotesPage = () => {
 
   return (
     <QuizNotesContainer>
-      <StyledCard title={`Q${notesStep + 1}. ${quizQuestion}`}>
-        <Flex align="center">
-          <QuizInfoSection quizCategory={quizCategory} quizDifficulty={quizDifficulty} />
-          <Button onClick={handleGoResultPage}>퀴즈 결과 보기</Button>
-        </Flex>
+      <StyledCard title={`Q. ${quizQuestion}`}>
+        <QuizInfoSection quizCategory={quizCategory} quizDifficulty={quizDifficulty} />
         <QuizRadioGroup
           isQuizAnswered={isQuizAnswered}
           correctAnswer={correctAnswer}

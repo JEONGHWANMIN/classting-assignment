@@ -64,7 +64,6 @@ const useQuizNotes = () => {
   };
 
   return {
-    notesStep,
     quizInfo,
     isLastStep,
     isFirstStep,
