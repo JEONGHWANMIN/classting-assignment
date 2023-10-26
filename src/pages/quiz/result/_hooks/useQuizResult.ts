@@ -5,7 +5,7 @@ import { calculateQuizResults } from "../_utils/calculateQuizResults";
 import { getQuizResultText } from "../_utils/getQuizResultText";
 import { getElapsedTimeText } from "../_utils/getElapsedTimeText";
 
-const useQuizResultWithSSR = () => {
+const useQuizResult = () => {
   const { isServerSideRendered } = useServerSideRenderingCheck();
   const globalQuiz = useRecoilValue(globalQuizState);
 
@@ -38,4 +38,4 @@ const useQuizResultWithSSR = () => {
   };
 };
 
-export { useQuizResultWithSSR };
+export { useQuizResult };

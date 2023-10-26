@@ -2,7 +2,7 @@ import { Card, Flex, RadioChangeEvent, Space } from "antd";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useQuizListWithSSR } from "./_hooks/useQuizListWithSSR";
+import { useQuizProcessInfo } from "./_hooks/useQuizProcessInfo";
 import { QuizResultIcon } from "./_components/QuizResultIcon";
 import { QuizRadioGroup } from "../_components/QuizRadioGroup";
 import { QuizCardBottomButton } from "./_components/QuizCardBottomButton";
@@ -22,7 +22,7 @@ const ProcessPage = () => {
     isNotNextStep,
     checkAnswerOrMoveToNext,
     updateQuizEndTimeAndProcess,
-  } = useQuizListWithSSR();
+  } = useQuizProcessInfo();
 
   useEffect(() => {
     resetSelectedAnswer();

@@ -2,7 +2,7 @@ import { Button, Card, Divider, Space } from "antd";
 import React from "react";
 import styled from "styled-components";
 import { useRouter } from "next/router";
-import { useQuizResultWithSSR } from "./_hooks/useQuizResultWithSSR";
+import { useQuizResult } from "./_hooks/useQuizResult";
 import { QuizResultInfo } from "./_components/QuizResultInfo";
 import { QuizDoughnutChart } from "./_components/QuizDoughnutChart";
 
@@ -17,8 +17,7 @@ const ResultPage = () => {
     router.push("/quiz/notes");
   };
 
-  const { correctAnswersRatio, inCorrectAnswersRatio, resultTexts } =
-    useQuizResultWithSSR();
+  const { correctAnswersRatio, inCorrectAnswersRatio, resultTexts } = useQuizResult();
 
   const { correctResultText, inCorrectResultText, elapsedTimeText } = resultTexts;
 

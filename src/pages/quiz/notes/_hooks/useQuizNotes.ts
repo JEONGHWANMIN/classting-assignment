@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useServerSideRenderingCheck } from "@src/hooks/useServerSideRenderingCheck";
 import { globalQuizState } from "@src/state/quiz.recoil";
 
-const useQuizResultWithSSR = () => {
+const useQuizNotes = () => {
   const { isServerSideRendered } = useServerSideRenderingCheck();
   const [globalQuiz, setGlobalQuiz] = useRecoilState(globalQuizState);
   const [notesStep, setNotesStep] = useState(0);
@@ -74,4 +74,4 @@ const useQuizResultWithSSR = () => {
   };
 };
 
-export { useQuizResultWithSSR };
+export { useQuizNotes };

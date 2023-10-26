@@ -4,7 +4,7 @@ import { globalQuizState } from "@src/state/quiz.recoil";
 import { useServerSideRenderingCheck } from "@src/hooks/useServerSideRenderingCheck";
 import { useGlobalDialog } from "@src/hooks/useGlobalDialog";
 
-const useQuizListWithSSR = () => {
+const useQuizProcessInfo = () => {
   const { isServerSideRendered } = useServerSideRenderingCheck();
   const [globalQuiz, setGlobalQuiz] = useRecoilState(globalQuizState);
   const { setGlobalDialogConfig } = useGlobalDialog();
@@ -99,4 +99,4 @@ const useQuizListWithSSR = () => {
   };
 };
 
-export { useQuizListWithSSR };
+export { useQuizProcessInfo };

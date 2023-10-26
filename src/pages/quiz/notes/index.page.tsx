@@ -3,7 +3,7 @@ import React from "react";
 import styled from "styled-components";
 import { useRouter } from "next/router";
 import { QuizRadioGroup } from "../_components/QuizRadioGroup";
-import { useQuizResultWithSSR } from "./_hooks/useQuizQuizNotesWithSSR";
+import { useQuizNotes } from "./_hooks/useQuizNotes";
 import { QuizDescription } from "./_components/QuizDescription";
 import { QuizInfoSection } from "../_components/QuizInfoSection";
 import { QuizStepButtons } from "./_components/QuizStepButtons";
@@ -24,7 +24,7 @@ const NotesPage = () => {
     updateQuizDescriptionInGlobalList,
     goNextStep,
     goPreviousStep,
-  } = useQuizResultWithSSR();
+  } = useQuizNotes();
 
   const {
     correctAnswer,
