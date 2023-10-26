@@ -1,4 +1,4 @@
-import { typographyType, colorsType } from "@src/styles/theme";
+import { typographyType, colorsType } from "@src/styles/styledTheme";
 
 declare module "styled-components" {
   export interface DefaultTheme {
