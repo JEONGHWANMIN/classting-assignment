@@ -4,7 +4,7 @@ import { globalQuizState } from "@src/state/quiz.recoil";
 import { useServerSideRenderingCheck } from "@src/hooks/useServerSideRenderingCheck";
 import { useGlobalDialog } from "@src/hooks/useGlobalDialog";
 
-const useQuizListWithSSR = () => {
+const useQuizProcessInfo = () => {
   const { isServerSideRendered } = useServerSideRenderingCheck();
   const [globalQuiz, setGlobalQuiz] = useRecoilState(globalQuizState);
   const { setGlobalDialogConfig } = useGlobalDialog();
@@ -15,17 +15,13 @@ const useQuizListWithSSR = () => {
 
   const getCurrentStepQuiz = () => quizList[step] || {};
 
-  const {
-    question: quizQuestion = "-",
-    shuffledAnswers: quizAnswers = [],
-    difficulty: quizDifficulty = "easy",
-    category: quizCategory = "-",
-    isAnswered: isQuizAnswered = false,
-    correct_answer: correctAnswer = "-",
-    isCorrect,
-  } = getCurrentStepQuiz();
+  const updateQuizEndTimeAndProcess = () => {
+    setGlobalQuiz((prev) => ({ ...prev, endTime: new Date(), isProcess: false }));
+  };
 
-  const isNotNextStep = isQuizAnswered && lastStep;
+  const handleGoNextStep = () => {
+    setGlobalQuiz((prev) => ({ ...prev, step: prev.step + 1 }));
+  };
 
   const showQuizResultMessage = (isCorrect: boolean) => {
     isCorrect
@@ -68,17 +64,21 @@ const useQuizListWithSSR = () => {
     });
   };
 
-  const updateQuizEndTime = () => {
-    setGlobalQuiz((prev) => ({ ...prev, endTime: new Date() }));
-  };
-
-  const handleGoNextStep = () => {
-    setGlobalQuiz((prev) => ({ ...prev, step: prev.step + 1 }));
-  };
-
   const checkAnswerOrMoveToNext = (selectedAnswer: string) => {
     isQuizAnswered ? handleGoNextStep() : confirmAnswerSubmission(selectedAnswer);
   };
+
+  const {
+    question: quizQuestion = "-",
+    shuffledAnswers: quizAnswers = [],
+    difficulty: quizDifficulty = "easy",
+    category: quizCategory = "-",
+    isAnswered: isQuizAnswered = false,
+    correct_answer: correctAnswer = "-",
+    isCorrect,
+  } = getCurrentStepQuiz();
+
+  const isNotNextStep = isQuizAnswered && lastStep;
 
   const quizInfo = {
     quizQuestion,
@@ -95,8 +95,8 @@ const useQuizListWithSSR = () => {
     isNotNextStep,
     quizInfo,
     checkAnswerOrMoveToNext,
-    updateQuizEndTime,
+    updateQuizEndTimeAndProcess,
   };
 };
 
-export { useQuizListWithSSR };
+export { useQuizProcessInfo };

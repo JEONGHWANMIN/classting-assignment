@@ -2,19 +2,22 @@ import { Button, Card, Divider, Space } from "antd";
 import React from "react";
 import styled from "styled-components";
 import { useRouter } from "next/router";
-import { useQuizResultWithSSR } from "./_hooks/useQuizResultWithSSR";
+import { useQuizResult } from "./_hooks/useQuizResult";
 import { QuizResultInfo } from "./_components/QuizResultInfo";
 import { QuizDoughnutChart } from "./_components/QuizDoughnutChart";
 
 const ResultPage = () => {
   const router = useRouter();
 
+  const handleGoQuizPage = () => {
+    router.push("/quiz");
+  };
+
   const handleGoNotesPage = () => {
     router.push("/quiz/notes");
   };
 
-  const { correctAnswersRatio, inCorrectAnswersRatio, resultTexts } =
-    useQuizResultWithSSR();
+  const { correctAnswersRatio, inCorrectAnswersRatio, resultTexts } = useQuizResult();
 
   const { correctResultText, inCorrectResultText, elapsedTimeText } = resultTexts;
 
@@ -31,9 +34,10 @@ const ResultPage = () => {
           elapsedTimeText={elapsedTimeText}
           inCorrectResultText={inCorrectResultText}
         />
-        <NoteButton type="primary" onClick={handleGoNotesPage}>
-          오답 노트
+        <NoteButton type="primary" onClick={handleGoQuizPage}>
+          홈으로
         </NoteButton>
+        <NoteButton onClick={handleGoNotesPage}>오답 노트</NoteButton>
       </StyledCard>
     </QuizResultContainer>
   );

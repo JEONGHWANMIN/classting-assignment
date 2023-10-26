@@ -2,11 +2,11 @@ import { Card, Flex, RadioChangeEvent, Space } from "antd";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useQuizListWithSSR } from "./_hooks/useQuizListWithSSR";
+import { useQuizProcessInfo } from "./_hooks/useQuizProcessInfo";
 import { QuizResultIcon } from "./_components/QuizResultIcon";
-import { QuizRadioGroup } from "./_components/QuizRadioGroup";
+import { QuizRadioGroup } from "../_components/QuizRadioGroup";
 import { QuizCardBottomButton } from "./_components/QuizCardBottomButton";
-import { QuizInfoSection } from "./_components/QuizInfoSection";
+import { QuizInfoSection } from "../_components/QuizInfoSection";
 
 const ProcessPage = () => {
   const router = useRouter();
@@ -16,8 +16,13 @@ const ProcessPage = () => {
     setSelectedAnswer("");
   };
 
-  const { quizInfo, step, isNotNextStep, checkAnswerOrMoveToNext, updateQuizEndTime } =
-    useQuizListWithSSR();
+  const {
+    quizInfo,
+    step,
+    isNotNextStep,
+    checkAnswerOrMoveToNext,
+    updateQuizEndTimeAndProcess,
+  } = useQuizProcessInfo();
 
   useEffect(() => {
     resetSelectedAnswer();
@@ -42,7 +47,7 @@ const ProcessPage = () => {
   } = quizInfo;
 
   const goResultPageAndUpdateEndTime = () => {
-    updateQuizEndTime();
+    updateQuizEndTimeAndProcess();
     handleGoQuizResult();
   };
 

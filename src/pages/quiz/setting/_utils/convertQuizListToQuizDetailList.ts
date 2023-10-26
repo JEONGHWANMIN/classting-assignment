@@ -13,6 +13,7 @@ export const convertQuizListToQuizDetailList = (quizList: QuizQuestion[]) => {
       question: decodedQuestion,
       shuffledAnswers,
       isAnswered: false,
+      description: "",
     };
   });
 

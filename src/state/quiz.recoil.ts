@@ -7,13 +7,15 @@ export interface LocalStorageQuiz {
   endTime: null | Date;
   quizList: QuizDetail[];
   step: number;
+  isProcess: boolean;
 }
 
 export interface QuizDetail extends QuizQuestion {
-  userAnswer?: string;
   isAnswered: boolean;
-  isCorrect?: boolean;
   shuffledAnswers: string[];
+  description: string;
+  isCorrect?: boolean;
+  userAnswer?: string;
 }
 
 const { persistAtom: quizPersistAtom } = recoilPersist({
@@ -24,6 +26,7 @@ const { persistAtom: quizPersistAtom } = recoilPersist({
 export const globalQuizState = atom<LocalStorageQuiz>({
   key: "quiz",
   default: {
+    isProcess: false,
     startTime: null,
     endTime: null,
     quizList: [],

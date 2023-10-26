@@ -1,7 +1,8 @@
-import { Button, Card, Space } from "antd";
+import { Button, Card, Flex, Space } from "antd";
 import { useRouter } from "next/router";
 import React from "react";
 import styled from "styled-components";
+import { useCheckQuizProcess } from "./_hooks/useCheckQuizProcess";
 
 const QuizPage = () => {
   const router = useRouter();
@@ -10,13 +11,24 @@ const QuizPage = () => {
     router.push("/quiz/setting");
   };
 
+  const handleGoNotesPage = () => {
+    router.push("/quiz/notes");
+  };
+
+  const { isShowGoNotesButton } = useCheckQuizProcess();
+
   return (
     <QuizContainer>
       <StyledCard title="영어 퀴즈 풀기">
         <WelcomeMessage>환영합니다! 😊 영어 퀴즈를 시작해보세요.</WelcomeMessage>
-        <StartButton type="primary" onClick={handleGoSettingPage}>
-          퀴즈 시작
-        </StartButton>
+        <ButtonContainer>
+          <StartButton type="primary" onClick={handleGoSettingPage}>
+            퀴즈 시작
+          </StartButton>
+          {isShowGoNotesButton && (
+            <StartButton onClick={handleGoNotesPage}>오답 노트</StartButton>
+          )}
+        </ButtonContainer>
       </StyledCard>
     </QuizContainer>
   );
@@ -46,6 +58,11 @@ const WelcomeMessage = styled.p`
   font-size: ${({ theme }) => theme.typography.fontSize.body5};
   color: ${({ theme }) => theme.colors.gray[800]};
   margin-bottom: 16px;
+`;
+
+const ButtonContainer = styled(Flex)`
+  flex-direction: column;
+  gap: 12px;
 `;
 
 const StartButton = styled(Button)`
