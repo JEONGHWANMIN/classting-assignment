@@ -10,7 +10,7 @@ const QuizColorInfo = () => {
       <QuizColorDescription text="정답" customColor={styledTheme.colors.mainGreen[200]} />
       <QuizColorDescription
         text="선택한 답"
-        customColor={styledTheme.colors.warning[500]}
+        customColor={styledTheme.colors.warning[300]}
       />
     </StyledFlex>
   );
