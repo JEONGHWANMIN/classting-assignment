@@ -16,9 +16,10 @@ const QuizCardBottomButton = ({
   isNotNextStep,
 }: QuizCardBottomButton) => {
   const checkAnswerOrNextStepText = isQuizAnswered ? "다음 문제 풀기" : "정답 확인하기";
+  const isShowResultCheckButton = isNotNextStep && isQuizAnswered;
   return (
     <>
-      {isNotNextStep ? (
+      {isShowResultCheckButton ? (
         <StartButton type="primary" onClick={goResultPageAndUpdateEndTime}>
           결과 확인하기
         </StartButton>
