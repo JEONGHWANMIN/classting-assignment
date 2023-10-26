@@ -1,7 +1,6 @@
-import { Button, Card, Flex, Space } from "antd";
+import { Card, Space } from "antd";
 import React from "react";
 import styled from "styled-components";
-import { useRouter } from "next/router";
 import { QuizRadioGroup } from "../_components/QuizRadioGroup";
 import { useQuizNotes } from "./_hooks/useQuizNotes";
 import { QuizDescription } from "./_components/QuizDescription";
@@ -10,12 +9,6 @@ import { QuizStepButtons } from "./_components/QuizStepButtons";
 import { QuizColorInfo } from "./_components/QuizColorInfo";
 
 const NotesPage = () => {
-  const router = useRouter();
-
-  const handleGoResultPage = () => {
-    router.push("/quiz/result");
-  };
-
   const {
     quizInfo,
     isLastStep,
