@@ -1,5 +1,5 @@
-import { QuizStepButtons } from "@src/pages/quiz/notes/_components/QuizStepButtons";
-import { QuizDescription } from "@src/pages/quiz/notes/_components/QuizDescription";
+import { QuizDescription } from "@src/pages/quiz/notes/[uuid]/_components/QuizDescription";
+import { QuizStepButtons } from "@src/pages/quiz/notes/[uuid]/_components/QuizStepButtons";
 import { fireEvent, render } from "../_render/render";
 
 describe("퀴즈 오답 페이지 컴포넌트 테스트 ", () => {
