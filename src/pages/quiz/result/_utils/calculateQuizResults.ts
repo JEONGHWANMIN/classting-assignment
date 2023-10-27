@@ -26,8 +26,8 @@ export const calculateQuizResults = ({
   return {
     correctAnswersCount,
     inCorrectAnswersCount,
-    correctAnswersRatio,
-    inCorrectAnswersRatio,
+    correctAnswersRatio: Math.floor(correctAnswersRatio),
+    inCorrectAnswersRatio: Math.floor(inCorrectAnswersRatio),
     timeDifference,
   };
 };
