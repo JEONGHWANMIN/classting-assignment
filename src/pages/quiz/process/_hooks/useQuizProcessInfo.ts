@@ -1,7 +1,7 @@
 import { message } from "antd";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { v4 as uuidv4 } from "uuid";
-import { globalQuizState } from "@src/state/quiz.recoil";
+import { QuizDetail, globalQuizState } from "@src/state/quiz.recoil";
 import { useServerSideRenderingCheck } from "@src/hooks/useServerSideRenderingCheck";
 import { useGlobalDialog } from "@src/hooks/useGlobalDialog";
 import { globalQuizNotes } from "@src/state/quizNotes.recoil";
@@ -23,7 +23,14 @@ const useQuizProcessInfo = () => {
     setGlobalQuiz((prev) => ({ ...prev, endTime: endDate, isProcess: false }));
 
     const inCorrectQuizList = globalQuiz.quizList.filter((quiz) => !quiz.isCorrect);
+    if (inCorrectQuizList.length === 0) return;
+
+    updateQuizNotes(inCorrectQuizList, endDate);
+  };
+
+  const updateQuizNotes = (inCorrectQuizList: QuizDetail[], endDate: Date) => {
     const uniqueKey = uuidv4();
+
     setGlobalQuizNotes((prev) => ({
       endQuizKeys: [
         ...prev.endQuizKeys,
