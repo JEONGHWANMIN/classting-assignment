@@ -5,15 +5,16 @@ import { useQuizNotesKeys } from "./_hooks/useQuizNotesKeys";
 import { QuizNoteTitleList } from "./_components/QuizNoteTitleList";
 
 const QuizNotePage = () => {
-  const { quizNotesKeys, handleGoNoteDetail, deleteQuizNoteById } = useQuizNotesKeys();
+  const { quizNotesKeys, handleGoNoteDetail, showConfirmDeleteQuizNote } =
+    useQuizNotesKeys();
 
   return (
     <QuizNotesContainer>
-      <StyledCard title="퀴즈 오답 회차">
+      <StyledCard title="퀴즈 오답 목록">
         <QuizTitleContainer>
           <QuizNoteTitleList
             quizNotesKeys={quizNotesKeys}
-            deleteQuizNoteById={deleteQuizNoteById}
+            showConfirmDeleteQuizNote={showConfirmDeleteQuizNote}
             handleGoNoteDetail={handleGoNoteDetail}
           />
         </QuizTitleContainer>

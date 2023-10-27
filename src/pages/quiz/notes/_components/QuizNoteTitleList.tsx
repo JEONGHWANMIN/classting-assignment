@@ -7,12 +7,12 @@ import { formatQuizTitle } from "../_utils/formatQuizTitle";
 interface QuizNoteTitleListProps {
   quizNotesKeys: EndQuizKey[];
   handleGoNoteDetail: (uuid: string) => void;
-  deleteQuizNoteById: (uuid: string) => void;
+  showConfirmDeleteQuizNote: (uuid: string) => void;
 }
 
 const QuizNoteTitleList = ({
   quizNotesKeys,
-  deleteQuizNoteById,
+  showConfirmDeleteQuizNote,
   handleGoNoteDetail,
 }: QuizNoteTitleListProps) => {
   const isEmptyNotes = quizNotesKeys.length === 0;
@@ -27,7 +27,7 @@ const QuizNoteTitleList = ({
             <Button onClick={() => handleGoNoteDetail(endQuiz.key)} style={{ flex: 1 }}>
               {formatQuizTitle(endQuiz.endDate)}
             </Button>
-            <Button danger onClick={() => deleteQuizNoteById(endQuiz.key)}>
+            <Button danger onClick={() => showConfirmDeleteQuizNote(endQuiz.key)}>
               삭제
             </Button>
           </Flex>
