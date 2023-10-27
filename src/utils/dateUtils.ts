@@ -6,7 +6,6 @@ export const dateUtils = {
   calculateTimeDifference(startDate: Date | null, endDate: Date | null) {
     if (!startDate || !endDate)
       return {
-        error: true,
         hours: 0,
         minutes: 0,
         seconds: 0,
@@ -22,7 +21,6 @@ export const dateUtils = {
     const seconds = Math.floor((timeDifference / 1000) % 60);
 
     return {
-      error: false,
       hours,
       minutes,
       seconds,
