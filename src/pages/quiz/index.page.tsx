@@ -16,14 +16,13 @@ const QuizPage = () => {
     router.push("/quiz/notes");
   };
 
-  const { isShowGoNotesButton } = useCheckQuizProcess();
+  useCheckQuizProcess();
 
   return (
     <QuizContainer>
       <StyledCard title="영어 퀴즈 풀기">
         <WelcomeMessage>환영합니다! 😊 영어 퀴즈를 시작해보세요.</WelcomeMessage>
         <QuizIndexButtons
-          isShowGoNotesButton={isShowGoNotesButton}
           handleGoSettingPage={handleGoSettingPage}
           handleGoNotesPage={handleGoNotesPage}
         />

@@ -16,13 +16,7 @@ const useCheckQuizProcess = () => {
     router.push("/quiz/process");
   };
 
-  const { isProcess, quizList } = isServerSideRendered
-    ? { isProcess: false, quizList: [] }
-    : globalQuiz;
-
-  const inCorrectQuizList = quizList.filter((quiz) => !quiz.isCorrect);
-
-  const isInCorrectListEmpty = inCorrectQuizList.length === 0;
+  const { isProcess } = isServerSideRendered ? { isProcess: false } : globalQuiz;
 
   useEffect(() => {
     if (isProcess) {
@@ -36,10 +30,6 @@ const useCheckQuizProcess = () => {
       });
     }
   }, [isProcess]);
-
-  const isShowGoNotesButton = !isProcess && !isInCorrectListEmpty;
-
-  return { isShowGoNotesButton };
 };
 
 export { useCheckQuizProcess };
