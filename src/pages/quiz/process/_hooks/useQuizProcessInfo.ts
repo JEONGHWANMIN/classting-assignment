@@ -25,7 +25,13 @@ const useQuizProcessInfo = () => {
     const inCorrectQuizList = globalQuiz.quizList.filter((quiz) => !quiz.isCorrect);
     const uniqueKey = uuidv4();
     setGlobalQuizNotes((prev) => ({
-      endQuizKeys: [...prev.endQuizKeys, uniqueKey],
+      endQuizKeys: [
+        ...prev.endQuizKeys,
+        {
+          key: uniqueKey,
+          endDate,
+        },
+      ],
       endQuizList: {
         ...prev.endQuizList,
         [uniqueKey]: inCorrectQuizList,
