@@ -38,9 +38,7 @@ class MyDocument extends Document {
   render() {
     return (
       <Html lang="en">
-        <Head>
-          <title>영어 퀴즈 서비스</title>
-        </Head>
+        <Head />
         <body>
           <Main />
           <NextScript />
