@@ -1,16 +1,23 @@
+import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
 import { useState } from "react";
 import { useServerSideRenderingCheck } from "@src/hooks/useServerSideRenderingCheck";
-import { globalQuizState } from "@src/state/quiz.recoil";
+import { globalQuizNotes } from "@src/state/quizNotes.recoil";
+import { QuizDetail } from "@src/state/quiz.recoil";
 
 const useQuizNotes = () => {
+  const router = useRouter();
+  const { uuid } = router.query;
+  const UUID = uuid as string;
+
   const { isServerSideRendered } = useServerSideRenderingCheck();
-  const [globalQuiz, setGlobalQuiz] = useRecoilState(globalQuizState);
+  const [globalQuizNote, setGlobalQuizNote] = useRecoilState(globalQuizNotes);
   const [notesStep, setNotesStep] = useState(0);
 
-  const { quizList } = isServerSideRendered ? { quizList: [] } : globalQuiz;
+  const { endQuizList }: { endQuizList: { [key: string]: QuizDetail[] } } =
+    isServerSideRendered ? { endQuizList: {} } : globalQuizNote;
 
-  const inCorrectQuizList = quizList.filter((quiz) => !quiz.isCorrect);
+  const inCorrectQuizList = endQuizList[UUID] ?? [];
 
   const isLastStep = inCorrectQuizList.length - 1 === notesStep;
   const isFirstStep = notesStep <= 0;
@@ -37,17 +44,23 @@ const useQuizNotes = () => {
   } = getCurrentStepQuiz();
 
   const updateQuizDescriptionInGlobalList = (description: string) => {
-    setGlobalQuiz((prev) => {
-      const updatedQuizList = prev.quizList.map((quizItem) => {
-        if (quizItem.question === quizQuestion) {
-          return { ...quizItem, description };
-        }
-        return quizItem;
+    setGlobalQuizNote((prev) => {
+      const updatedEndQuizList = { ...prev.endQuizList };
+      const quizList = updatedEndQuizList[UUID] || [];
+
+      const updatedQuizList = quizList.map((quizItem) => {
+        return {
+          ...quizItem,
+          description:
+            quizItem.question === quizQuestion ? description : quizItem.description,
+        };
       });
+
+      updatedEndQuizList[UUID] = updatedQuizList;
 
       return {
         ...prev,
-        quizList: updatedQuizList,
+        endQuizList: updatedEndQuizList,
       };
     });
   };

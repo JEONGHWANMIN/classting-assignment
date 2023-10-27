@@ -1,12 +1,15 @@
 import { message } from "antd";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { v4 as uuidv4 } from "uuid";
 import { globalQuizState } from "@src/state/quiz.recoil";
 import { useServerSideRenderingCheck } from "@src/hooks/useServerSideRenderingCheck";
 import { useGlobalDialog } from "@src/hooks/useGlobalDialog";
+import { globalQuizNotes } from "@src/state/quizNotes.recoil";
 
 const useQuizProcessInfo = () => {
   const { isServerSideRendered } = useServerSideRenderingCheck();
   const [globalQuiz, setGlobalQuiz] = useRecoilState(globalQuizState);
+  const setGlobalQuizNotes = useSetRecoilState(globalQuizNotes);
   const { setGlobalDialogConfig } = useGlobalDialog();
 
   const quizList = isServerSideRendered ? [] : globalQuiz.quizList;
@@ -16,7 +19,18 @@ const useQuizProcessInfo = () => {
   const getCurrentStepQuiz = () => quizList[step] || {};
 
   const updateQuizEndTimeAndProcess = () => {
-    setGlobalQuiz((prev) => ({ ...prev, endTime: new Date(), isProcess: false }));
+    const endDate = new Date();
+    setGlobalQuiz((prev) => ({ ...prev, endTime: endDate, isProcess: false }));
+
+    const inCorrectQuizList = globalQuiz.quizList.filter((quiz) => !quiz.isCorrect);
+    const uniqueKey = uuidv4();
+    setGlobalQuizNotes((prev) => ({
+      endQuizKeys: [...prev.endQuizKeys, uniqueKey],
+      endQuizList: {
+        ...prev.endQuizList,
+        [uniqueKey]: inCorrectQuizList,
+      },
+    }));
   };
 
   const handleGoNextStep = () => {
