@@ -49,6 +49,8 @@ const StyledCard = styled(Card)`
 `;
 
 const QuizTitleContainer = styled(Flex)`
+  max-height: 500px;
+  overflow-y: scroll;
   flex-direction: column;
   gap: 10px;
   color: ${({ theme }) => theme.colors.mainGreen[200]};
