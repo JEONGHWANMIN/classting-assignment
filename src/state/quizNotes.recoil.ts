@@ -2,8 +2,13 @@ import { atom } from "recoil";
 import { recoilPersist } from "recoil-persist";
 import { QuizDetail } from "./quiz.recoil";
 
+export interface EndQuizKey {
+  endDate: Date;
+  key: string;
+}
+
 interface LocalStorageNote {
-  endQuizKeys: string[];
+  endQuizKeys: EndQuizKey[];
   endQuizList: { [ket in string]: QuizDetail[] };
 }
 

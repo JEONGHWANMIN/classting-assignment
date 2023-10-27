@@ -1,70 +1,37 @@
-import { Card, Space } from "antd";
+import { Card, Flex, Space } from "antd";
 import React from "react";
 import styled from "styled-components";
-import { QuizRadioGroup } from "../_components/QuizRadioGroup";
-import { useQuizNotes } from "./_hooks/useQuizNotes";
-import { QuizDescription } from "./_components/QuizDescription";
-import { QuizInfoSection } from "../_components/QuizInfoSection";
-import { QuizStepButtons } from "./_components/QuizStepButtons";
-import { QuizColorInfo } from "./_components/QuizColorInfo";
+import { useQuizNotesKeys } from "./_hooks/useQuizNotesKeys";
+import { QuizNoteTitleList } from "./_components/QuizNoteTitleList";
 
-const NotesPage = () => {
-  const {
-    quizInfo,
-    isLastStep,
-    isFirstStep,
-    updateQuizDescriptionInGlobalList,
-    goNextStep,
-    goPreviousStep,
-  } = useQuizNotes();
-
-  const {
-    correctAnswer,
-    description,
-    isQuizAnswered,
-    quizAnswers,
-    quizCategory,
-    quizDifficulty,
-    quizQuestion,
-    userAnswer,
-  } = quizInfo;
+const QuizNotePage = () => {
+  const { quizNotesKeys, handleGoNoteDetail, deleteQuizNoteById } = useQuizNotesKeys();
 
   return (
     <QuizNotesContainer>
-      <StyledCard title={`Q. ${quizQuestion}`}>
-        <QuizInfoSection quizCategory={quizCategory} quizDifficulty={quizDifficulty} />
-        <QuizRadioGroup
-          isQuizAnswered={isQuizAnswered}
-          correctAnswer={correctAnswer}
-          quizAnswers={quizAnswers}
-          userAnswer={userAnswer}
-        />
-        <QuizColorInfo />
-        <QuizStepButtons
-          goNextStep={goNextStep}
-          goPreviousStep={goPreviousStep}
-          isFirstStep={isFirstStep}
-          isLastStep={isLastStep}
-        />
-        <QuizDescription
-          quizStepDescription={description}
-          updateQuizStepDescription={updateQuizDescriptionInGlobalList}
-        />
+      <StyledCard title="퀴즈 오답 회차">
+        <QuizTitleContainer>
+          <QuizNoteTitleList
+            quizNotesKeys={quizNotesKeys}
+            deleteQuizNoteById={deleteQuizNoteById}
+            handleGoNoteDetail={handleGoNoteDetail}
+          />
+        </QuizTitleContainer>
       </StyledCard>
     </QuizNotesContainer>
   );
 };
 
-export default NotesPage;
+export default QuizNotePage;
 
-export const QuizNotesContainer = styled(Space)`
+const QuizNotesContainer = styled(Space)`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 `;
 
-export const StyledCard = styled(Card)`
+const StyledCard = styled(Card)`
   width: 500px;
   margin-top: 60px;
   text-align: center;
@@ -78,4 +45,10 @@ export const StyledCard = styled(Card)`
   @media (max-width: 430px) {
     width: 90vw;
   }
+`;
+
+const QuizTitleContainer = styled(Flex)`
+  flex-direction: column;
+  gap: 10px;
+  color: ${({ theme }) => theme.colors.mainGreen[200]};
 `;
