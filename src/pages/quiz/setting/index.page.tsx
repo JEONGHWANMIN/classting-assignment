@@ -9,14 +9,14 @@ import { QuizSettingForm } from "./_components/QuizSettingForm";
 const SettingPage = () => {
   const [quizSetting, setQuizSetting] = useState(INITIAL_QUIZ_SETTING);
 
+  const { isLoadingQuizList, saveQuizAndGoProcessPage } = useSaveQuizToGlobalState();
+
   const handleSelectChange: handleSelectChangeType = (name, value) => {
     setQuizSetting((prevQuizSetting) => ({
       ...prevQuizSetting,
       [name]: value,
     }));
   };
-
-  const { isLoadingQuizList, saveQuizAndGoProcessPage } = useSaveQuizToGlobalState();
 
   const handleLoadQuiz = () => {
     saveQuizAndGoProcessPage(quizSetting);
